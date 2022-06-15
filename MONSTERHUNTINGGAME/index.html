@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canavar Avı</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+    <section class="row">
+        <div class="small-6 columns">
+            <h1 class="text-center">YOU</h1>
+            <div class="healthbar">
+                <div :style="player_progress" class="healthbar text-center" style="background-color: green; margin: 0; color: white;">
+                    {{ player_heal }}%
+                </div>
+            </div>
+        </div>
+        <div class="small-6 columns">
+            <h1 class="text-center">BEAST</h1>
+            <div class="healthbar">
+                <div :style="monster_progress" class="healthbar text-center" style="background-color: green; margin: 0; color: white;">
+                    {{ monster_heal }}%
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row controls" v-if="!game_is_on"><!--Buradaki vue olayı game_is_on false ken ekranda görünsün anlamına geliyor-->
+        <div class="small-12 columns">
+            <button id="start-game" @click="start_game">NEW GAME</button><!--buraya click olayı eklendi-->
+        </div>
+    </section>
+
+    <section class="row controls" v-if="game_is_on"><!--Buradaki vue olayı game_is_on false ken ekranda görünsün anlamına geliyor-->
+        <div class="small-12 columns">
+            <button id="attack" @click="attack" v-on:click="counter_attack++">ATTACK
+                <p>Counter:{{ counter_attack }}</p>
+            </button><!--buraya click olayı eklendi-->
+            <button id="special-attack" @click="special_attack" v-on:click="counter_special_attack++">SPECIAL ATTACK
+                <p>Counter:{{ counter_special_attack }}</p>
+            </button><!--buraya click olayı eklendi-->
+            <button id="heal" @click="heal_up" v-on:click="counter_first_aid++">FIRST AID
+                <p>Counter:{{ counter_first_aid }}</p>
+            </button><!--buraya click olayı eklendi-->
+            <button id="give-up" @click="give_up" v-on:click="counter_giv_up++">GIV UP!
+                <p>Counter:{{ counter_giv_up }}</p>
+            </button><!--buraya click olayı eklendi-->
+        </div>
+    </section>
+
+    <section class="row log" v-if="logs.length > 0"><!--Buradaki vue olayı logs.length 0 dan büyükse ekranda görünsün anlamına geliyor-->
+        <div class="small-12 columns">
+            <ul>
+                <li
+                        :class="{ 'player-turn' : log.turn == 'p', 'monster-turn' : log.turn == 'm' }"
+                        v-for="log in logs"> {{ log.text }}</li>
+            </ul>
+        </div>
+    </section>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
